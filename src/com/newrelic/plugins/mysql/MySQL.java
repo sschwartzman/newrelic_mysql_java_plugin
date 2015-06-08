@@ -147,7 +147,7 @@ public class MySQL {
         Statement stmt = null;
         ResultSet rs = null;
         Map<String, Float> results = new HashMap<String, Float>();
-        String statusMetric = buildString(category, SEPARATOR, "query_status");
+        String statusMetric = buildString(category, SEPARATOR, "status");
         
         try {
             logger.debug("Running SQL Statement ", SQL);

@@ -110,12 +110,15 @@ public class MySQLAgent extends Agent {
     public void pollCycle() {
         Connection c = m.getConnection(host, user, passwd, properties); // Get a database connection (which should be cached)
         if (c == null) {
+        	Map<String, Float> results = new HashMap<String, Float>();
+        	results.put("status/database_status", STATUS_FAILURE);
+        	reportMetrics(results);
             return; // Unable to continue without a valid database connection
         }
 
         logger.debug("Gathering MySQL metrics. ", getAgentInfo());
-
         Map<String, Float> results = gatherMetrics(c); // Gather defined metrics
+        results.put("status/database_status", STATUS_SUCCESS);
         reportMetrics(results); // Report Metrics to New Relic
         firstReport = false;
     }
@@ -502,6 +505,9 @@ public class MySQLAgent extends Agent {
             addMetricMeta(key, new MetricMeta(true, "Operations/Second"));
         }
 
+        if (key.endsWith(SEPARATOR + "status") || key.endsWith(SEPARATOR + "database_status")) {
+            addMetricMeta(key, new MetricMeta(false, "Status"));
+        }
         return metricsMeta.get(key.toLowerCase()); // Look for existing meta data on metric
     }
 
