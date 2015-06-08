@@ -147,7 +147,8 @@ public class MySQL {
         Statement stmt = null;
         ResultSet rs = null;
         Map<String, Float> results = new HashMap<String, Float>();
-
+        String statusMetric = buildString(category, SEPARATOR, "query_status");
+        
         try {
             logger.debug("Running SQL Statement ", SQL);
             stmt = c.createStatement();
@@ -191,9 +192,11 @@ public class MySQL {
                     results.putAll(processInnoDBStatus(rs, category));
                 }
             }
+            results.put(statusMetric, STATUS_SUCCESS);
             return results;
         } catch (SQLException e) {
             logger.error("An SQL error occured running '", SQL, "' ", e.getMessage());
+            results.put(statusMetric, STATUS_FAILURE);
         } finally {
             try {
                 if (rs != null) {

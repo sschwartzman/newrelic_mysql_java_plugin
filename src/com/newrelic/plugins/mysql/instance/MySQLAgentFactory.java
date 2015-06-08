@@ -77,7 +77,8 @@ public class MySQLAgentFactory extends AgentFactory {
     public Map<String, Object> readCategoryConfiguration() throws ConfigurationException {
         Map<String, Object> metricCategories = new HashMap<String, Object>();
         try {
-            JSONArray json = readJSONFile(CATEGORY_CONFIG_FILE);
+            @SuppressWarnings("deprecation")
+			JSONArray json = readJSONFile(CATEGORY_CONFIG_FILE);
             for (int i = 0; i < json.size(); i++) {
                 JSONObject obj = (JSONObject) json.get(i);
                 String category = (String) obj.get("category");

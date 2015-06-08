@@ -3,7 +3,10 @@ package com.newrelic.plugins.mysql.util;
 import java.util.regex.Pattern;
 
 public class Constants {
-
+   
+	public static final float STATUS_SUCCESS = 1;
+	public static final float STATUS_FAILURE = 0;
+		
     public static final String COMMA = ",";
     public static final String SLASH = "/";
     public static final String SPACE = " ";
