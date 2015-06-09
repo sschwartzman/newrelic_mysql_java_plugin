@@ -147,7 +147,7 @@ public class MySQL {
         Statement stmt = null;
         ResultSet rs = null;
         Map<String, Float> results = new HashMap<String, Float>();
-        String statusMetric = buildString(category, SEPARATOR, "status");
+        String statusMetric = buildString(category, SEPARATOR, STATUS_CATEGORY_METRIC_NAME);
         
         try {
             logger.debug("Running SQL Statement ", SQL);
@@ -341,7 +341,7 @@ public class MySQL {
         return false;
     }
 
-    static String buildString(String... strings) {
+    public static String buildString(String... strings) {
         StringBuilder builder = new StringBuilder(50);
         for (String string : strings) {
             builder.append(string);

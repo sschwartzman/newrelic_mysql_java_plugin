@@ -34,7 +34,8 @@ public class MySQLAgent extends Agent {
     public static final String AGENT_DEFAULT_PASSWD = "f63c225f4abe9e13";
     public static final String AGENT_DEFAULT_PROPERTIES = "";
     public static final String AGENT_DEFAULT_METRICS = "status,newrelic";
-
+    public static final String DATABASE_STATUS_METRIC = MySQL.buildString("status", SEPARATOR, STATUS_DATABASE_METRIC_NAME);
+    
     private final String name; // Agent Name
 
     private final String host; // MySQL Connection parameters
@@ -50,7 +51,7 @@ public class MySQLAgent extends Agent {
     private Map<String, Object> metricCategories = new HashMap<String, Object>();
 
     private final MySQL m; // Per agent MySQL Object
-
+    
     private boolean firstReport = true;
 
     /**
@@ -111,14 +112,14 @@ public class MySQLAgent extends Agent {
         Connection c = m.getConnection(host, user, passwd, properties); // Get a database connection (which should be cached)
         if (c == null) {
         	Map<String, Float> results = new HashMap<String, Float>();
-        	results.put("status/database_status", STATUS_FAILURE);
+        	results.put(DATABASE_STATUS_METRIC, STATUS_FAILURE);
         	reportMetrics(results);
             return; // Unable to continue without a valid database connection
         }
 
         logger.debug("Gathering MySQL metrics. ", getAgentInfo());
         Map<String, Float> results = gatherMetrics(c); // Gather defined metrics
-        results.put("status/database_status", STATUS_SUCCESS);
+        results.put(DATABASE_STATUS_METRIC, STATUS_SUCCESS);
         reportMetrics(results); // Report Metrics to New Relic
         firstReport = false;
     }
@@ -505,8 +506,8 @@ public class MySQLAgent extends Agent {
             addMetricMeta(key, new MetricMeta(true, "Operations/Second"));
         }
 
-        if (key.endsWith(SEPARATOR + "status") || key.endsWith(SEPARATOR + "database_status")) {
-            addMetricMeta(key, new MetricMeta(false, "Status"));
+        if (key.endsWith(SEPARATOR + STATUS_CATEGORY_METRIC_NAME) || key.equals(DATABASE_STATUS_METRIC)) {
+            addMetricMeta(key, new MetricMeta(false, "Stat"));
         }
         return metricsMeta.get(key.toLowerCase()); // Look for existing meta data on metric
     }
