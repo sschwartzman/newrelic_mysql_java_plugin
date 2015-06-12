@@ -507,7 +507,7 @@ public class MySQLAgent extends Agent {
         }
 
         if (key.endsWith(SEPARATOR + STATUS_CATEGORY_METRIC_NAME) || key.equals(DATABASE_STATUS_METRIC)) {
-            addMetricMeta(key, new MetricMeta(false, "Stat"));
+            addMetricMeta(key, new MetricMeta(false, "State"));
         }
         return metricsMeta.get(key.toLowerCase()); // Look for existing meta data on metric
     }

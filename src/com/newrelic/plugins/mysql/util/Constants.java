@@ -5,7 +5,7 @@ import java.util.regex.Pattern;
 public class Constants {
    
 	public static final float STATUS_SUCCESS = 1;
-	public static final float STATUS_FAILURE = 0;
+	public static final float STATUS_FAILURE = 3;
 	public static final String STATUS_CATEGORY_METRIC_NAME = "database_status";
 	public static final String STATUS_DATABASE_METRIC_NAME = "category_status";
 			
